@@ -1,0 +1,30 @@
+:root { font-family: Inter, system-ui, sans-serif; background-color: #f7f9fc; color: #1a1a1a; }
+.app-container { max-width: 800px; margin: 40px auto; padding: 20px; text-align: center; }
+.app-header h1 { color: #007bff; margin-bottom: 5px; }
+.app-header p { color: #666; margin-top: 0; margin-bottom: 30px; }
+
+.input-panel { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: left; }
+.input-panel label { display: block; font-weight: bold; margin-bottom: 5px; color: #555; }
+input, select { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+input:focus, select:focus { border-color: #007bff; outline: none; box-shadow: 0 0 5px rgba(0,123,255,0.2); }
+
+.generate-btn { width: 100%; background-color: #007bff; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.generate-btn:hover { background-color: #0056b3; }
+.generate-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+.result-panel { background: white; margin-top: 40px; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-left: 8px solid #28a745; text-align: left; }
+.result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 10px; }
+.result-header h3 { margin: 0; color: #333; }
+.copy-btn { background-color: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+.copy-btn:hover { background-color: #218838; }
+
+/* Markdown Styling start */
+.markdown-display { text-align: left; line-height: 1.7; color: #444; font-size: 16px; }
+.markdown-display h1, .markdown-display h2, .markdown-display h3 { color: #222; margin-top: 1.5em; margin-bottom: 0.5em; }
+.markdown-display p { margin-bottom: 1.2em; }
+.markdown-display ul, .markdown-display ol { padding-left: 20px; margin-bottom: 1.2em; }
+.markdown-display li { margin-bottom: 0.5em; }
+.markdown-display strong { color: #111; font-weight: 700; }
+/* Markdown Styling end */
+
+@media (max-width: 600px) { .result-header { flex-direction: column; align-items: flex-start; gap: 10px; } .copy-btn { width: 100%; } }
