@@ -58,3 +58,4 @@ async def generate_description(item: ProductInfo):
         if "429" in str(e):
             return {"description": "Quota Full. Please wait 1 minute."}
         return {"description": f"Error: {str(e)}"}
+     
