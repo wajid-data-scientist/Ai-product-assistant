@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 # 1. API Key حاصل کریں
-api_key = os.getenv("GEMINI_API_KEY") or "AIzaSyBVbDZrotpo2QnxMKOnYklu3hrp79u25pQ"
+api_key = os.getenv("GEMINI_API_KEY") or "AIzaSyCKGvOjcP_G6AMxuyQG3LTBWOMRSRtk6sE"
 
 # 2. کلائنٹ سیٹ اپ
 client = genai.Client(api_key=api_key)
@@ -37,13 +37,13 @@ async def chat(request: ChatRequest):
     try:
         # جیمنائی کو میسج بھیجنا
         response = client.models.generate_content(
-            model="gemini-2.0-flash", # جیمنائی 2.0 فلیش بہترین ہے
+            model="gemini-1.5-flash", # جیمنائی 2.0 فلیش بہترین ہے
             contents=request.message
         )
         
         return {"description": response.text}
         
     except Exception as e:
-        print(f"Error: {str(e)}")
-        return {"description": f"Error: {str(e)}"}
-# --- یہاں ختم ہوتا ہے ---
+        if "429" in str(e):
+            return {"description": "گوگل کا مفت کوٹہ ختم ہو گیا ہے۔ براہ کرم 1 منٹ انتظار کریں۔"}
+    return {"description": "کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔"}

@@ -27,7 +27,8 @@ function App() {
       });
 
       // AI کا جواب سکرین پر دکھائیں
-      setMessages([...newMessages, { role: "assistant", content: response.data.response }]);
+      // یہاں response کی جگہ description لکھیں
+setMessages([...newMessages, { role: "assistant", content: response.data.description }]);
     } catch (error) {
       console.error("Error connecting to backend:", error);
       setMessages([...newMessages, { role: "assistant", content: "معذرت، بیک اینڈ سے رابطہ نہیں ہو سکا۔ براہ کرم چیک کریں کہ API Key ایڈ ہے یا نہیں۔" }]);
