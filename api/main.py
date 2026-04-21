@@ -43,7 +43,8 @@ async def chat(request: ChatRequest):
         
         return {"description": response.text}
         
-    except Exception as e:
-        if "429" in str(e):
-            return {"description": "گوگل کا مفت کوٹہ ختم ہو گیا ہے۔ براہ کرم 1 منٹ انتظار کریں۔"}
-    return {"description": "کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔"}
+    except  Exception as e:
+        # یہ لائن ہمیں بتائے گی کہ گوگل اصل میں کیا ایرر دے رہا ہے
+        error_message = str(e)
+        print(f"DEBUG ERROR: {error_message}")
+        return {"description": f"Backend Error: {error_message}"}
