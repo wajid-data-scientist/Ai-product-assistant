@@ -37,9 +37,9 @@ async def chat(request: ChatRequest):
     try:
         # جیمنائی کو میسج بھیجنا
         response = client.models.generate_content(
-            model="gemini-1.5-flash", # جیمنائی 2.0 فلیش بہترین ہے
-            contents=request.message
-        )
+    model="gemini-1.5-flash", 
+    contents=request.message
+)
         
         return {"description": response.text}
         
