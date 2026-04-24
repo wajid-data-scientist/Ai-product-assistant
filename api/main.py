@@ -1,17 +1,10 @@
 import os
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from google import genai
 from fastapi.middleware.cors import CORSMiddleware
 
-load_dotenv()
-
-# 1. API Key حاصل کریں
-api_key = os.getenv("GEMINI_API_KEY") 
-
-# 2. کلائنٹ سیٹ اپ
-client = genai.Client(api_key=api_key)
+# نوٹ: ورسل پر load_dotenv() کی ضرورت نہیں ہوتی، وہ خود ہی Variables اٹھا لیتا ہے
 
 app = FastAPI()
 
@@ -23,7 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# یہ وہ ماڈل ہے جو فرنٹ اینڈ سے آنے والے "message" کو سنبھالے گا
 class ChatRequest(BaseModel):
     message: str
 
@@ -31,20 +23,25 @@ class ChatRequest(BaseModel):
 def read_root():
     return {"status": "Backend is running!"}
 
-# --- یہاں سے وہ کوڈ شروع ہوتا ہے جو غائب تھا ---
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        # جیمنائی کو میسج بھیجنا
+        # 1. فنکشن کے اندر کی (Key) حاصل کریں
+        api_key = os.getenv("GEMINI_API_KEY")
+        
+        # 2. اگر کی نہیں ملی تو ایرر دیں (تاکہ ہمیں پتہ چلے مسئلہ کی کا ہے)
+        if not api_key:
+            return {"description": "Backend Error: GEMINI_API_KEY is missing in Vercel settings!"}
+
+        # 3. کلائنٹ کو یہاں ڈیفائن کریں
+        client = genai.Client(api_key=api_key)
+        
         response = client.models.generate_content(
-    model="gemini-1.5-flash", 
-    contents=request.message
-)
+            model="gemini-1.5-flash", 
+            contents=request.message
+        )
         
         return {"description": response.text}
         
-    except  Exception as e:
-        # یہ لائن ہمیں بتائے گی کہ گوگل اصل میں کیا ایرر دے رہا ہے
-        error_message = str(e)
-        print(f"DEBUG ERROR: {error_message}")
-        return {"description": f"Backend Error: {error_message}"}
+    except Exception as e:
+        return {"description": f"Backend Error: {str(e)}"}
