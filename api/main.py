@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# CORS سیٹ اپ
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,18 +20,18 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        # 1. API Key حاصل کریں
+        # API Key حاصل کریں
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            return {"description": "Error: GEMINI_API_KEY not found in Vercel settings!"}
+            return {"description": "Error: GEMINI_API_KEY is missing!"}
             
-        # 2. کنفیگر کریں
+        # گوگل کنفیگریشن
         genai.configure(api_key=api_key)
         
-        # 3. ماڈل ڈیفائن کریں (بغیر 'models/' کے لکھیں)
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        # ماڈل کا نام - ہم اب 'gemini-1.5-flash' استعمال کریں گے
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
-        # 4. جواب حاصل کریں
+        # جواب حاصل کریں
         response = model.generate_content(request.message)
         
         return {"description": response.text}
