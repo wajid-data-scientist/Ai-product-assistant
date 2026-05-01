@@ -1,12 +1,11 @@
 import os
-import google.generativeai as genai
 from fastapi import FastAPI
 from pydantic import BaseModel
+from google import genai
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# CORS سیٹ اپ
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,19 +19,18 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        # API Key حاصل کریں
         api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            return {"description": "Error: GEMINI_API_KEY is missing!"}
-            
-        # گوگل کنفیگریشن
-        genai.configure(api_key=api_key)
         
-        # ماڈل کا نام - ہم اب 'gemini-1.5-flash' استعمال کریں گے
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # یہاں 'http_options' شامل کیا ہے تاکہ وہ زبردستی v1 پر رہے
+        client = genai.Client(
+            api_key=api_key,
+            http_options={'api_version': 'v1'}
+        )
         
-        # جواب حاصل کریں
-        response = model.generate_content(request.message)
+        response = client.models.generate_content(
+            model="gemini-1.5-flash", 
+            contents=request.message
+        )
         
         return {"description": response.text}
     except Exception as e:
