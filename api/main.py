@@ -16,12 +16,17 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
 
+# --- یہ حصہ شامل کرنا بہت ضروری ہے ---
+@app.get("/")
+def read_root():
+    return {"status": "Backend is running!", "message": "Haripur University Project"}
+
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
         api_key = os.getenv("GEMINI_API_KEY")
         
-        # یہاں 'http_options' شامل کیا ہے تاکہ وہ زبردستی v1 پر رہے
+        # نوٹ: Gemini 2.0 Flash کے لیے 'v1' ورژن ٹھیک ہے
         client = genai.Client(
             api_key=api_key,
             http_options={'api_version': 'v1'}
