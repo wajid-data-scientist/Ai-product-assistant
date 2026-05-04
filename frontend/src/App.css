@@ -28,3 +28,11 @@ input:focus, select:focus { border-color: #007bff; outline: none; box-shadow: 0 
 /* Markdown Styling end */
 
 @media (max-width: 600px) { .result-header { flex-direction: column; align-items: flex-start; gap: 10px; } .copy-btn { width: 100%; } }
+#ai-response {
+    white-space: pre-wrap;
+    background-color: #f4f4f4; /* ہلکا سا گرے بیک گراؤنڈ */
+    padding: 15px;            /* تھوڑی سی جگہ */
+    border-radius: 8px;       /* کونے گول کرنے کے لیے */
+    line-height: 1.6;         /* لائنوں کے درمیان فاصلہ */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
