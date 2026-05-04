@@ -42,16 +42,21 @@ function App() {
         <h1>AI Product Assistant</h1>
         <div className="chat-window">
           {messages.map((msg, index) => (
-  <div 
-    key={index} 
-    className={`message ${msg.role}`}
-    // یہ لائن جادو کرے گی اور لائنوں کو الگ الگ دکھائے گی
-    style={msg.role === "assistant" ? { whiteSpace: "pre-wrap" } : {}}
-  >
-    <strong>{msg.role === "user" ? "You: " : "AI: "}</strong>
-    <span>{msg.content}</span>
-  </div>
-))}
+            <div 
+              key={index} 
+              className={`message ${msg.role}`}
+              // فائنل حل: یہ اسٹائل اب ہر حال میں لائن بریکس دکھائے گا
+              style={{ 
+                whiteSpace: "pre-wrap", 
+                textAlign: "left", 
+                marginBottom: "15px",
+                display: "block" 
+              }}
+            >
+              <strong>{msg.role === "user" ? "You: " : "AI: "}</strong>
+              <span>{msg.content}</span>
+            </div>
+          ))}
           {loading && <p className="loading">AI سوچ رہا ہے...</p>}
         </div>
         <form onSubmit={sendMessage} className="input-form">
