@@ -27,8 +27,7 @@ function App() {
       });
 
       // AI کا جواب سکرین پر دکھائیں
-      // یہاں response کی جگہ description لکھیں
-setMessages([...newMessages, { role: "assistant", content: response.data.description }]);
+      setMessages([...newMessages, { role: "assistant", content: response.data.description }]);
     } catch (error) {
       console.error("Error connecting to backend:", error);
       setMessages([...newMessages, { role: "assistant", content: "معذرت، بیک اینڈ سے رابطہ نہیں ہو سکا۔ براہ کرم چیک کریں کہ API Key ایڈ ہے یا نہیں۔" }]);
@@ -43,9 +42,14 @@ setMessages([...newMessages, { role: "assistant", content: response.data.descrip
         <h1>AI Product Assistant</h1>
         <div className="chat-window">
           {messages.map((msg, index) => (
-            <div key={index} className={`message ${msg.role}`}>
+            <div 
+              key={index} 
+              className={`message ${msg.role}`}
+              // یہاں ہم نے آئی ڈی دی ہے تاکہ CSS اپلائی ہو سکے
+              id={msg.role === "assistant" ? "ai-response" : ""}
+            >
               <strong>{msg.role === "user" ? "You: " : "AI: "}</strong>
-              {msg.content}
+              <span>{msg.content}</span>
             </div>
           ))}
           {loading && <p className="loading">AI سوچ رہا ہے...</p>}
