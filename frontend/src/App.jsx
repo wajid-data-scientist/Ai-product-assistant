@@ -42,21 +42,24 @@ function App() {
         <h1>AI Product Assistant</h1>
         <div className="chat-window">
           {messages.map((msg, index) => (
-            <div 
-              key={index} 
-              className={`message ${msg.role}`}
-              // فائنل حل: یہ اسٹائل اب ہر حال میں لائن بریکس دکھائے گا
-              style={{ 
-                whiteSpace: "pre-wrap", 
-                textAlign: "left", 
-                marginBottom: "15px",
-                display: "block" 
-              }}
-            >
-              <strong>{msg.role === "user" ? "You: " : "AI: "}</strong>
-              <span>{msg.content}</span>
-            </div>
-          ))}
+  <div 
+    key={index} 
+    className={`message ${msg.role}`}
+    style={{ marginBottom: "15px", textAlign: "left", display: "block" }}
+  >
+    <strong>{msg.role === "user" ? "You: " : "AI: "}</strong>
+    
+    {/* ٹیکسٹ کو لائن بریکس پر توڑ کر الگ الگ لائنوں میں دکھانا */}
+    <div style={{ marginTop: "5px" }}>
+      {msg.content.split('\n').map((line, i) => (
+        <React.Fragment key={i}>
+          {line}
+          <br />
+        </React.Fragment>
+      ))}
+    </div>
+  </div>
+))}
           {loading && <p className="loading">AI سوچ رہا ہے...</p>}
         </div>
         <form onSubmit={sendMessage} className="input-form">
